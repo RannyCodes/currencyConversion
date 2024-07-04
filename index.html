@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div className="container">
+      <input type="text" placeholder="Enter amount" class="amount" />
+
+      <label for="fcur">From:</label>
+      <select name="from-cur" id="fcur">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="INR">INR</option>
+      </select>
+
+      <label for="tcur">To:</label>
+      <select name="to-cur" id="tcur">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="CAD">CAD</option>
+        <option value="INR">INR</option>
+      </select>
+
+      <button class="enterBtn">Enter</button>
+      <p>
+        <span class="rate">Rate</span><span class="currency">Currency</span>
+      </p>
+    </div>
+
+    <script>
+      "use strict";
+      //   https://api.frankfurter.app/latest?amount=${amount}&from=${currency1}&to=${currency2};
+
+      const amountEl = document.querySelector(".amount");
+      const fromCurrency = document.querySelector("#fcur");
+      const toCurrency = document.querySelector("#tcur");
+      const rateValue = document.querySelector(".rate");
+      const currency = document.querySelector(".currency");
+      const btn = document.querySelector(".enterBtn");
+
+      //   const url = https://api.frankfurter.app/latest?amount=${amount}&from=${currency1}&to=${currency2};
+
+      btn.addEventListener("click", () => {
+        const amount = amountEl.value;
+        const currency1 = fromCurrency.value;
+        const currency2 = toCurrency.value;
+
+        const url = https://api.frankfurter.app/latest?amount=${amount}&from=${currency1}&to=${currency2};
+
+        // console.log(amount, currency1, currency2);
+
+        currencyConversion(url, currency2);
+      });
+
+      async function currencyConversion(url, curr) {
+        try {
+          const res = await fetch(url);
+          const data = await res.json();
+          console.log(data);
+          renderData(data, curr);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function renderData(data, cur) {
+        rateValue.textContent = data.rates[cur];
+        currency.textContent = cur;
+      }
+    </script>
+  </body>
+</html>
